@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Home } from './components/home/home';
+import { Login } from './components/login/login';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [Home],
-  template: `<app-home></app-home>`,
+  imports: [
+    RouterOutlet,
+    Home,
+    Login,
+    FormsModule,
+  ],
+  template: `<router-outlet></router-outlet>`,
   styles: [],
 })
 export class App {
