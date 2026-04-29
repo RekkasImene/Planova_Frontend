@@ -1,17 +1,31 @@
 import { Routes } from '@angular/router';
-//import { RouteGuardService } from './service/route-guard.service';
-import { Logout } from './components/logout/logout';
-import { TasksList } from './components/tasks-list/tasks-list';
-import { Home } from './components/home/home';
-import { Login } from './components/login/login';
-import { Error } from './components/error/error';
+import { Logout } from '../components/logout/logout';
+import { TaskList } from '../components/task-list/task-list';
+import { Home } from '../components/home/home';
+import { Login } from '../components/login/login';
+import { Error } from '../components/error/error';
+import { RouteGuard, loginGuard } from '../services/route-guard';
 
 export const routes: Routes = [
-  { path: '', component: Login },//canActivate, RouteGuardService
+  // Public
+  { path: 'login', component: Login, canActivate: [loginGuard] },
 
-  { path: 'login', component: Login },
+  // Protected layout
+  {
+    path: '',
+    canActivate: [RouteGuard],
+    children: [
+      { path: 'home', component: Home },
+      { path: 'taskList', component: TaskList },
+      { path: 'logout', component: Logout },
+      // default logged user
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+    ],
+  },
 
-  { path: 'home', component: Home},
+  // Default
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 
-  { path: '**', component: Error }
+  // 404
+  { path: '**', component: Error },
 ];

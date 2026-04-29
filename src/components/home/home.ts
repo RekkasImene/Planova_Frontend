@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Header } from '../header/header';
 import { Slider } from '../slider/slider';
-import { Footer } from '../footer/footer';
+import { ActivatedRoute } from '@angular/router';
 
 interface Feature {
   id: number;
@@ -20,11 +19,16 @@ interface Stat {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, Header, Slider, Footer],
+  imports: [CommonModule, Slider],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class Home {
+export class Home implements OnInit {
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+  }
+
   features: Feature[] = [
     {
       id: 1,

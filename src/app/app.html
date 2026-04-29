@@ -1,1 +1,14 @@
-<router-outlet />
+<app-alert></app-alert>
+@if (auth.isUserLoggedIn()) {
+
+<app-header></app-header>
+
+<router-outlet></router-outlet>
+
+<app-footer></app-footer>
+
+} @else {
+
+<router-outlet></router-outlet>
+
+}

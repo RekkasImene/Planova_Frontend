@@ -1,0 +1,158 @@
+<div class="p-6">
+
+  <!-- HEADER -->
+  <div class="flex justify-between items-center mb-6">
+
+    <input
+      [(ngModel)]="search"
+      (input)="applyFilter()"
+      placeholder="Rechercher..."
+      class="px-4 py-2 border rounded-lg w-64 focus:ring-2 focus:ring-purple-500">
+
+    <button class="btn btn-primary">
+      + Nouvelle tâche
+    </button>
+
+  </div>
+
+  <!-- TABLE -->
+  <div class="bg-white rounded-xl shadow overflow-hidden">
+
+    <table mat-table [dataSource]="dataSource" matSort class="w-full">
+
+      <!-- ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let t">{{ t.id }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="idFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- TITLE -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Titre</th>
+        <td mat-cell *matCellDef="let t">{{ t.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="titleFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <input [(ngModel)]="filters.title"
+                 (input)="applyFilter()"
+                 placeholder="Filtrer..."
+                 class="input w-full">
+        </th>
+      </ng-container>
+
+      <!-- PROJECT -->
+      <ng-container matColumnDef="project">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Projet</th>
+        <td mat-cell *matCellDef="let t">{{ t.project }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="projectFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <input [(ngModel)]="filters.project"
+                 (input)="applyFilter()"
+                 placeholder="Projet"
+                 class="input w-full">
+        </th>
+      </ng-container>
+
+      <!-- STATUS -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Statut</th>
+        <td mat-cell *matCellDef="let t">
+          <span [ngClass]="getStatusClass(t.status)">
+            {{ t.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="statusFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <select [(ngModel)]="filters.status"
+                  (change)="applyFilter()"
+                  class="input w-full">
+            <option value="">Tous</option>
+            <option value="TODO">TODO</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="DONE">DONE</option>
+          </select>
+        </th>
+      </ng-container>
+
+      <!-- PRIORITY -->
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef>Priorité</th>
+        <td mat-cell *matCellDef="let t">
+          <span [ngClass]="getPriorityClass(t.priority)">
+            {{ t.priority }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="priorityFilter">
+        <th mat-header-cell *matHeaderCellDef>
+          <select [(ngModel)]="filters.priority"
+                  (change)="applyFilter()"
+                  class="input w-full">
+            <option value="">Tous</option>
+            <option value="LOW">LOW</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="HIGH">HIGH</option>
+          </select>
+        </th>
+      </ng-container>
+
+      <!-- ASSIGNEE -->
+      <ng-container matColumnDef="assignee">
+        <th mat-header-cell *matHeaderCellDef>Assigné</th>
+        <td mat-cell *matCellDef="let t">{{ t.assignee }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="assigneeFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- DATE -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let t">
+          {{ t.createdAt | date:'shortDate' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createdAtFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- ACTIONS -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let t">
+          <button (click)="editTask(t)" class="text-blue-600 mr-2">Edit</button>
+          <button (click)="deleteTask(t)" class="text-red-600">Delete</button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actionsFilter">
+        <th mat-header-cell *matHeaderCellDef></th>
+      </ng-container>
+
+      <!-- HEADER -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <!-- FILTER ROW -->
+      <tr mat-header-row *matHeaderRowDef="filterColumns"></tr>
+
+      <!-- ROWS -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+
+    <mat-paginator [pageSize]="5"></mat-paginator>
+
+  </div>
+</div>

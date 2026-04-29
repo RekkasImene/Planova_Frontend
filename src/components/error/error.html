@@ -1,0 +1,23 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-center px-4">
+
+  <h1 class="text-6xl font-black text-purple-600 mb-4">
+    {{ code }}
+  </h1>
+
+  <h2 class="text-2xl font-bold text-gray-900 mb-2">
+    Page introuvable
+  </h2>
+
+  <p class="text-gray-600 mb-6">
+    La page que vous cherchez n'existe pas.
+  </p>
+
+  <button
+    [routerLink]="auth.isUserLoggedIn() ? '/home' : '/login'"
+    class="px-6 py-3 bg-purple-600 text-white rounded-lg
+           hover:bg-purple-700 transition
+           focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
+    Retour à l'application
+  </button>
+
+</div>
