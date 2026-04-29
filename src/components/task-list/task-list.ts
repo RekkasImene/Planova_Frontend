@@ -8,6 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { TaskData } from '../../services/data/task-data';
+import { ActivatedRoute } from '@angular/router';
+import { AlertService } from '../../services/alert-service';
 
 @Component({
   selector: 'app-task-list',
@@ -43,7 +46,7 @@ export class TaskList {
     'priority',
     'assignee',
     'createdAt',
-    'actions'
+    'actions',
   ];
 
   filterColumns = [
@@ -54,8 +57,33 @@ export class TaskList {
     'priorityFilter',
     'assigneeFilter',
     'createdAtFilter',
-    'actionsFilter'
+    'actionsFilter',
   ];
+
+  constructor(
+    private route: ActivatedRoute,
+    private taskSevice: TaskData,
+    private alertService: AlertService,
+  ) {}
+
+  // data from backend
+  getTasks() {
+    this.taskSevice.getTasks().subscribe({
+      next: (response) => this.handleSuccessfulReponse(response),
+      error: (error) => this.alertService.error('Erreur Rest API ! ' + error.error.message),
+    });
+  }
+
+  getTask(task : Task) {
+    this.taskSevice.getTask(task.id).subscribe({
+      next: (response) => this.handleSuccessfulReponse(response),
+      error: (error) => this.alertService.error('Erreur Rest API ! ' + error.error.message),
+    });
+  }
+
+  handleSuccessfulReponse(response: any) {
+    console.log('get tasks %s', response);
+  }
 
   // data
   dataSource = new MatTableDataSource<Task>([
